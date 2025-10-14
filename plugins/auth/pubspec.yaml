@@ -1,0 +1,23 @@
+name: auth_plugin
+description: Plugin de autenticación para microkernel_demo
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ^3.9.0
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.0
+
+  # Dependencia al core principal
+  microkernel_core:
+    path: ../../packages/microkernel_core
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
