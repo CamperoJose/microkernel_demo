@@ -1,29 +1,19 @@
-name: my_app
-description: "Main Flutter app at repository root"
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-version: 1.0.0+1
-
+name: microkernel_demo
 environment:
-  sdk: ^3.9.0
-
+  sdk: ">=3.9.0 <4.0.0"
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-
-  flutter_lints: ^5.0.0
-
-flutter:
-  uses-material-design: true
+  melos: ^7.1.1
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-  #MICROKERNEL ARCHITECTURE:
   microkernel_core:
     path: packages/microkernel_core
   auth_plugin:
     path: plugins/auth
   core_services:
     path: plugins/core_services
+
+flutter:
+  uses-material-design: true

@@ -2,15 +2,15 @@
 
 A new Flutter project.
 
-## Getting Started
+## comandos:
 
-This project is a starting point for a Flutter application.
+### melos instalado globalmente:
+melos bootstrap
 
-A few resources to get you started if this is your first Flutter project:
+## flutter pub:
+flutter pub global run melos bootstrap
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ver paquetes delectados por melos:
+melos list
+### o vía flutter
+flutter pub global run melos list

@@ -3,3 +3,5 @@ name: microkernel_workspace
 packages:
   - "packages/**"
   - "plugins/**"
+  - "plugins/auth"
+  - "plugins/core_services"
