@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'auth_service.dart';
+import 'package:go_router/go_router.dart';
+import 'package:microkernel_core/microkernel_core.dart';
+import 'package:core_models/core_models.dart';
 
 class LoginPage extends StatefulWidget {
-  final AuthService authService;
-  const LoginPage({super.key, required this.authService});
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -19,34 +20,51 @@ class _LoginPageState extends State<LoginPage> {
     final username = _userController.text.trim();
     final password = _passController.text.trim();
 
-    final response = await widget.authService.login(username, password);
-    setState(() => _loading = false);
+    try {
+      final authService = ServiceLocator().get<IAuthService>();
+      final response = await authService.login(username, password);
 
-    if (response != null && response.code == 'M-0001') {
+      setState(() => _loading = false);
+
+      if (response.code == 'M-0001') {
+        // Emitir evento de login exitoso
+        EventBus().emit(
+          LoginSuccessEvent(
+            userId: response.userId,
+            userName: response.user?.name ?? username,
+            token: response.token,
+          ),
+        );
+
+        if (!mounted) return;
+
+        // Navegar a la pantalla de balance
+        context.go('/balance');
+      } else {
+        if (!mounted) return;
+        _showError('Código de respuesta inesperado: ${response.code}');
+      }
+    } catch (e) {
+      setState(() => _loading = false);
       if (!mounted) return;
-      showDialog(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: const Text('Éxito'),
-          content: const Text('Login exitoso'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: const Text('OK'),
-            ),
-          ],
-        ),
-      );
-    } else {
-      if (!mounted) return;
-      showDialog(
-        context: context,
-        builder: (_) => const AlertDialog(
-          title: Text('Error'),
-          content: Text('Credenciales incorrectas'),
-        ),
-      );
+      _showError('Error al iniciar sesión: $e');
     }
+  }
+
+  void _showError(String message) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Error'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override

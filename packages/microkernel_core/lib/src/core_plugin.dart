@@ -1,30 +1,32 @@
-import 'package:flutter/widgets.dart';
-
-/// A minimal plugin contract for the microkernel.
-/// Plugins should implement `id`, `name`, `version` and
-/// provide async lifecycle hooks.
+/// Contrato base para plugins del microkernel
+/// Todos los plugins deben implementar esta interfaz
 abstract class CorePlugin {
-  /// Unique plugin id (used as key in the manager)
+  /// Identificador único del plugin
   String get id;
 
-  /// Human friendly name
+  /// Nombre descriptivo del plugin
   String get name;
 
-  /// Semantic version
+  /// Versión del plugin
   String get version;
 
-  /// Called when the plugin is initialized. Plugins can register
-  /// routes or services during this call.
+  /// Lista de IDs de plugins de los que depende este plugin
+  List<String> get dependencies => [];
+
+  /// Inicializa el plugin
+  /// Se llama cuando el plugin es registrado
+  Future<void> initialize();
+
+  /// Libera recursos del plugin
+  /// Se llama cuando la aplicación se cierra o el plugin se desactiva
+  Future<void> dispose();
+
+  /// Indica si el plugin está inicializado
+  bool get isInitialized;
+
+  /// Método protegido para que las subclases implementen la lógica de inicialización
   Future<void> onInitialize();
 
-  /// Called when the plugin is being disposed.
+  /// Método protegido para que las subclases implementen la lógica de limpieza
   Future<void> onDispose();
-
-  /// Optional: helper to register routes during initialization.
-  /// Plugins can call [PluginManager().registerRoute(...)] directly
-  /// if they prefer.
-  @protected
-  void registerRoute(String path, WidgetBuilder builder) {
-    // No-op by default. Implementations may route through PluginManager.
-  }
 }

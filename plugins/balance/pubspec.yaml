@@ -1,5 +1,5 @@
-name: core_services
-description: Core services plugin para microkernel_demo
+name: balance_plugin
+description: Plugin de balance y transacciones
 version: 0.0.1
 publish_to: none
 
@@ -10,8 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  http: ^1.2.0
-  flutter_secure_storage: ^9.0.0
+  go_router: ^14.6.2
 
   # Dependencias locales
   microkernel_core:
